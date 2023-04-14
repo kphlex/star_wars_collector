@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+
+{% block nav %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Star Wars Collector</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-controls="collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="collapse">
+        <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="/profile/{{user.id}}">My Profile</a>
+            <a class="nav-link" href="#">Search</a>
+            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link disabled">About</a>
+        </div>
+        </div>
+    </div>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h3>Welcome, {{user.username }} </h3>
+    <h6 id='timer'></h6>
+    <a href="/roll"><button type="button" class='btn btn-secondary btn-sm'>Roll Items</button></a>
+</div>
+<div id='main' class="container d-flex mt-4">
+    <h6>Your Collection:</h6>
+    <div id='contain'>
+        <table id='people'>
+            <thead>
+                <tr>
+                    <th>People</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in context.people %}
+                <tr>
+                    <td>{{item}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id='starships'>
+            <thead>
+                <tr>
+                    <th>Starships</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in context.starships %}
+                <tr>
+                    <td>{{item}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id='planets'>
+            <thead>
+                <tr>
+                    <th>Planets</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in context.planets %}
+                <tr>
+                    <td>{{item}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> 
+    <div id='last_contain' class="row">
+        <h6>Your last roll:</h6>
+        <div id='last'>
+            <ul>
+                <li>{{late.latest_person.name}}</li>
+                <li>{{late.latest_starship.name}}</li>
+                <li>{{late.latest_planet.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        margin: 0 auto;
+    }
+    .header {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    #main, .row , #table {
+        width: 100%;
+    }
+    #contain {
+        display: flex;
+        justify-content: space-around;
+    }
+    #main {
+        display: flex;
+        flex-direction: column;
+    } 
+    #last_contain {
+        width: 100%;
+        margin-top: 35px;
+    }
+    #last {
+        width: 100%;
+        height: 20vh;
+        border: 2px solid black;
+        border-radius: 5px;
+        background-color: #ffffff;
+        opacity: 0.4;
+    }
+    tbody {
+        border: 2px solid black;
+        background-color: #ffffff;
+        opacity: 0.4;
+    }
+    ul {
+        height: 20vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    body {
+        background-image: url('{% static '/img/dashboard.jpeg' %}');
+        background-attachment: fixed;
+        background-position: center center;
+        font-size: 20px;
+    }
+    .nav, a {
+        color: #E5D360 !important;
+    }
+</style>
+
+{% endblock %}

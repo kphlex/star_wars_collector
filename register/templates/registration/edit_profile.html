@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Your Profile
+{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block auth %}
+<div class='container'>
+    <h4>Profile</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{user_form|crispy}}
+        {{profile_form|crispy}}
+        <button type="submit" class="btn btn-secondary">Update</button>
+    </form>
+</div>
+
+<style>
+    body {
+        background-image: url('{% static '/img/reg.jpg' %}');
+        background-attachment: fixed;
+        background-position: center center;
+        font-size: 20px;
+    }
+    h4, p, form{
+        color: white;
+    }
+</style>
+{% endblock %}
