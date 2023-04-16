@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} About {% endblock %}
+
+{% block nav %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Star Wars Collector</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-controls="collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="collapse">
+        <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="/profile/{{context.profile.id}}">My Profile</a>
+            <a class="nav-link" href="/dashboard/">Dashboard</a>
+            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" href='#'>About</a>
+        </div>
+        </div>
+    </div>
+</nav>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div id='front' class="col">
+            <h3>Front-End</h3>
+            <div id='front_img'class="hidden">
+                <img src="{% static '/img/icons8-html-5-96.png' %}">
+                <img src="{% static '/img/icons8-css3-96.png' %}">
+                <img src="{% static '/img/icons8-javascript-96.png' %}">
+            </div>
+        </div>
+        <div id='back'class="col">
+            <h3>Back-End</h3>
+            <div class="hidden" id="back_img">
+                <img src="{% static '/img/icons8-python-144.png' %}">
+                <img src="{% static '/img/icons8-django-144.png' %}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id='tools'class="col">
+            <h3>Tools</h3>
+            <div class="hidden" id="tools_img">
+                <img src="{% static '/img/icons8-visual-studio-code-2019-96.png' %}">
+                <img src="{% static '/img/icons8-git-96.png' %}">
+                <img src="{% static '/img/icons8-apple-logo-90.png' %}">
+            </div>
+        </div>
+        <div id='features' class="col">
+            <h3>Features</h3>
+            <ul class='hidden'>
+                <li><a href='https://swapi.dev/'>SWAPI Star Wars API</a></li>
+                <li>Randomly generated item collection</li>
+                <li>Profile page interactions</li>
+                <li>Profile pictures / Profile edit</li>
+                <li>CRUD</li>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5em;
+        margin-top: 15px;
+        width: 85%;
+        height: 35vh;
+    }
+
+    .hidden{
+        display: none;
+    }
+
+    .col {
+        text-align: center;
+        width: 50%;
+        height: 100%;
+        color: azure;
+        border: 2px solid gray;
+        border-radius: 5px;
+        background-color: #272727;
+    }
+
+    body {
+        background-image: url('{% static '/img/about.jpeg' %}');
+        background-attachment: fixed;
+        background-position: center;
+        font-size: 20px;
+    }
+    
+    #front:hover, #back:hover {
+        color: gray;
+        background-color: #484A4C;
+        opacity: 0.9;
+        transform: translateY(-10%);
+    }
+    #tools:hover, #features:hover {
+        color: gray;
+        background-color: #484A4C;
+        opacity: 0.9;
+        transform: translateY(+10%);
+    }
+    .col:hover .hidden {
+        display: block;
+    }
+    .nav, a {
+        color: #E5D360 !important;
+    }
+</style>
+{% endblock %}

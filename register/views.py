@@ -16,13 +16,17 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            if not hasattr(user, 'profile'):
+                Profile.objects.create(user=user)
             login(request, user)
             messages.success(request, 'Registration successful')
             return redirect('main:dashboard')
-        messages.error(request, 'Registration failed')
-    else: 
+        else: 
+            messages.error(request, 'Registration failed')
+    else:
         form = RegisterForm()
     return render(request, 'register/register.html', {'form': form})
+
 
 
 

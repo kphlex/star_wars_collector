@@ -9,6 +9,8 @@ urlpatterns = [
     path("register/", v.register, name = 'register'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('', include('django.contrib.auth.urls')),
+    path('search/', views.user_search, name='user_search'),
+    path('about/', views.about, name='about'),
     path("roll/", RollPage.as_view() , name='roll'),
     path('roll-api/', views.RollAPIView, name='roll-api'),
     path('store-items/', views.store_items, name='store-items'),

@@ -97,3 +97,50 @@ $('#edit-comment-form').submit(function(event) {
         }
     });
 });
+
+
+// SEARCH FUNCTION
+
+$(document).ready(function() {
+    $('#search-form').submit(function(event) {
+        event.preventDefault(); // prevent default form submission
+        var form = $(this);
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function(data) {
+                $('#users').html(data); // replace search results with updated results
+            }
+        });
+    });
+});
+
+// VIEW USER 
+
+$(document).ready(function() {
+    $('#id_search_query').keyup(function() {
+      var query = $(this).val();
+      $.ajax({
+        url: '/search/',
+        type: 'GET',
+        data: {
+          'search_query': query
+        },
+        success: function(data) {
+          $('#users').empty();
+          if (data.results.length > 0) {
+            $.each(data.results, function(i, user) {
+              var profile_id = data.profiles[i].pk;
+              var link = $('<a>').attr('href', '/profile/' + profile_id + '/').text(user.username);
+              var paragraph = $('<p>').append(link);
+              $('#users').append(paragraph);
+            });
+          } else {
+            $('#users').append($('<p>').text('No matching users found.'));
+          }
+        }
+      });
+    });
+  });
+  

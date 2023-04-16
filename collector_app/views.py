@@ -8,16 +8,19 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 import random
-from .forms import CommentForm
+from .forms import CommentForm, UserSearchForm
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 def index(request):
     return redirect ('/login')
 
+
 @login_required
 def dashboard(request):
     current_user = request.user
-    
+    profile = Profile.objects.get(user=current_user)
     people = People.objects.filter(user=current_user).values_list('name', flat=True)
     starships = Starships.objects.filter(user=current_user).values_list('name', flat=True)
     planets = Planets.objects.filter(user=current_user).values_list('name', flat=True)
@@ -25,7 +28,8 @@ def dashboard(request):
     context = {
         'people': list(people),
         'starships': list(starships),
-        'planets': list(planets)
+        'planets': list(planets),
+        'profile' : profile
     }
     
     latest_person_query = People.objects.filter(user=current_user)
@@ -138,19 +142,18 @@ def store_items(request):
 
 @login_required
 def profile(request, pk):
-    current_user = request.user
-    profile = Profile.objects.get(user=current_user)
-    count_1 = People.objects.filter(user=current_user).count()
-    count_2 = Starships.objects.filter(user=current_user).count()
-    count_3 = Planets.objects.filter(user=current_user).count()
+    profile = get_object_or_404(Profile, id=pk)
+    count_1 = People.objects.filter(user=profile.user).count()
+    count_2 = Starships.objects.filter(user=profile.user).count()
+    count_3 = Planets.objects.filter(user=profile.user).count()
 
     total =  {
         'total' : count_1 + count_2 + count_3
     }
     
-    people = People.objects.filter(user=current_user).values_list('name', flat=True)
-    starships = Starships.objects.filter(user=current_user).values_list('name', flat=True)
-    planets = Planets.objects.filter(user=current_user).values_list('name', flat=True)
+    people = People.objects.filter(user=profile.user).values_list('name', flat=True)
+    starships = Starships.objects.filter(user=profile.user).values_list('name', flat=True)
+    planets = Planets.objects.filter(user=profile.user).values_list('name', flat=True)
     
     items = {
         'people': list(people),
@@ -166,8 +169,9 @@ def profile(request, pk):
         'form': form,
         'profile_id': profile_id,
         'comments': comments,
-        'profile': profile
+        'profile': profile,
     }
+    
     return render(request, 'profile.html', context)
 
 
@@ -210,3 +214,23 @@ def edit_comment(request, profile_id, comment_id):
     comment.content = content
     comment.save()
     return JsonResponse({'success': 'Comment updated successfully.'})
+
+
+def user_search(request):
+    form = UserSearchForm(request.GET)
+    
+    if form.is_valid():
+        query = form.cleaned_data.get('search_query', '')
+        results = User.objects.filter(username__icontains=query)
+        profiles = Profile.objects.filter(user__in=results)
+        
+    else:
+        results = User.objects.all()
+        profiles = Profile.objects.all()
+    return render(request, 'search.html', {'form': form, 'results': results, 'profiles': profiles})
+
+
+def about(request):
+    pass
+
+    return render(request, 'about.html')

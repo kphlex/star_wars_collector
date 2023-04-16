@@ -12,10 +12,10 @@
         </button>
         <div class="navbar-collapse collapse" id="collapse">
         <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="/profile/{{user.id}}">My Profile</a>
-            <a class="nav-link" href="#">Search</a>
+            <a class="nav-link active" aria-current="page" href="/profile/{{context.profile.id}}">My Profile</a>
+            <a class="nav-link" href="/search">Search</a>
             <a class="nav-link" href="/logout">Logout</a>
-            <a class="nav-link disabled">About</a>
+            <a class="nav-link" href='/about'>About</a>
         </div>
         </div>
     </div>
@@ -25,12 +25,12 @@
 
 {% block content %}
 <div class="header">
-    <h3>Welcome, {{user.username }} </h3>
+    <h2>Welcome, {{user.username }} </h2>
     <h6 id='timer'></h6>
     <a href="/roll"><button type="button" class='btn btn-secondary btn-sm'>Roll Items</button></a>
 </div>
 <div id='main' class="container d-flex mt-4">
-    <h6>Your Collection:</h6>
+    <h4>Your Collection:</h4>
     <div id='contain'>
         <table id='people'>
             <thead>
@@ -76,7 +76,7 @@
         </table>
     </div> 
     <div id='last_contain' class="row">
-        <h6>Your last roll:</h6>
+        <h4>Your last roll:</h4>
         <div id='last'>
             <ul>
                 <li>{{late.latest_person.name}}</li>
@@ -119,17 +119,22 @@
         border: 2px solid black;
         border-radius: 5px;
         background-color: #ffffff;
-        opacity: 0.4;
+        opacity: 0.5;
+    }
+    th, h2 {
+        color: #E5D360;
+        font-weight: 700;
     }
     tbody {
         border: 2px solid black;
         background-color: #ffffff;
-        opacity: 0.4;
+        opacity: 0.5;
     }
     ul {
         height: 20vh;
         width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
     }

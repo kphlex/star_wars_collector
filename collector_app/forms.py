@@ -13,3 +13,6 @@ class CommentForm(forms.ModelForm):
             'class': 'form-control',
             'placeholder': 'Leave a comment...'
         })
+
+class UserSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)
